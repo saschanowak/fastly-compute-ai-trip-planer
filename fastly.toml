@@ -1,0 +1,36 @@
+# This file describes a Fastly Compute package. To learn more visit:
+# https://www.fastly.com/documentation/reference/compute/fastly-toml
+
+name = "chatty edge trip planer"
+description = "AI-powered trip planner running on Fastly Compute"
+authors = ["fastly_cli-50dhmnzd1uewpkfrtfb2a0@fastlyautomationaccount.com"]
+cloned_from = "https://github.com/fastly/compute-starter-kit-typescript"
+language = "javascript"
+manifest_version = 3
+service_id = ""
+
+[local_server]
+  [local_server.secret_stores]
+    [[local_server.secret_stores.chatty-edge-trip-planer-secrets]]
+      key = "GCP_API_KEY"
+      file = "./secrets/GCP_API_KEY.txt"
+
+  [local_server.kv_stores]
+    [local_server.kv_stores."trip-plans"]
+      format = "json"
+      file = "kv-seed/plans.json"
+
+  [local_server.backends]
+    [local_server.backends.open_meteo_api]
+      url = "https://api.open-meteo.com"
+      override_host = "api.open-meteo.com"
+    [local_server.backends.open_meteo_geocoding]
+      url = "https://geocoding-api.open-meteo.com"
+      override_host = "geocoding-api.open-meteo.com"
+    [local_server.backends.wikimedia]
+      url = "https://commons.wikimedia.org"
+      override_host = "commons.wikimedia.org"
+
+[scripts]
+  build = "npm run build"
+  post_init = "npm install"

@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@fastly/js-compute": "^3.42.1",
+    "@google/genai": "^2.7.0"
+  },
+  "devDependencies": {
+    "@fastly/cli": "^15.1.0",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "prebuild": "tsc --noEmit",
+    "build": "js-compute-runtime src/index.ts bin/main.wasm",
+    "start": "fastly compute serve",
+    "deploy": "fastly compute publish"
+  }
+}

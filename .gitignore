@@ -1,0 +1,10 @@
+/node_modules
+/bin
+/pkg
+/secrets
+.env
+.claude
+.terraform
+terraform.tfstate.backup
+terraform.tfstate
+.terraform.lock.hcl

@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatty Edge · AI Trip Planner</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNiIgZmlsbD0iI0Y0RUVFMyIvPgogIDxkZWZzPjxjbGlwUGF0aCBpZD0iYyI+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iOS41Ii8+PC9jbGlwUGF0aD48L2RlZnM+CiAgPGcgY2xpcC1wYXRoPSJ1cmwoI2MpIiBmaWxsPSJub25lIiBzdHJva2U9IiNDMjY4M0YiPgogICAgPGxpbmUgeDE9IjYiIHkxPSIxNiIgeDI9IjI2IiB5Mj0iMTYiIHN0cm9rZS13aWR0aD0iMS4yIi8+CiAgICA8bGluZSB4MT0iOCIgeTE9IjExIiB4Mj0iMjQiIHkyPSIxMSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICA8bGluZSB4MT0iOCIgeTE9IjIxIiB4Mj0iMjQiIHkyPSIyMSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICA8ZWxsaXBzZSBjeD0iMTYiIGN5PSIxNiIgcng9IjQuNSIgcnk9IjkuNSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KICA8L2c+CiAgPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iOS41IiBmaWxsPSJub25lIiBzdHJva2U9IiNDMjY4M0YiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjwvc3ZnPg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Chatty Edge — warm & earthy design system
+   ============================================================ */
+:root {
+  --sand:        #F4EEE3;
+  --cream:       #FCFAF5;
+  --cream-2:     #F7F2E9;
+  --clay-tint:   #EFE2D2;
+  --clay-tint-2: #E7D6C2;
+  --ink:    #2A2521;
+  --ink-2:  #5B5247;
+  --muted:  #918675;
+  --faint:  #B8AD9C;
+  --line:   #E4DBCC;
+  --line-2: #D8CDB9;
+  --terra:      #C2683F;
+  --terra-deep: #A8542F;
+  --terra-soft: #F0D9C9;
+  --green:      #2E5A43;
+  --green-soft: #DCE6DC;
+  --gold:       #CDA349;
+  --gold-soft:  #F2E6C7;
+  --bubble:     #E7D6C2;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --r-pill: 999px;
+  --sh-sm: 0 1px 2px rgba(42,37,33,.05), 0 1px 1px rgba(42,37,33,.04);
+  --sh-md: 0 4px 16px rgba(42,37,33,.07), 0 1px 3px rgba(42,37,33,.05);
+  --sh-lg: 0 18px 50px rgba(42,37,33,.13), 0 4px 12px rgba(42,37,33,.07);
+  --font-display: "Bricolage Grotesque", "Hanken Grotesk", system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  background: var(--sand);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; }
+::selection { background: var(--terra-soft); }
+
+/* scrollbars */
+.scroll { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+.scroll::-webkit-scrollbar { width: 9px; height: 9px; }
+.scroll::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+.scroll::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- typography ---------- */
+.display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; line-height: 1.02; }
+
+/* ---------- top bar ---------- */
+.topbar {
+  height: 64px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; flex: 0 0 auto;
+}
+.brand {
+  font-family: var(--font-display); font-weight: 800; font-size: 25px; letter-spacing: -0.03em;
+  color: var(--ink); display: inline-flex; align-items: baseline; gap: 1px; user-select: none;
+}
+.brand .dot { color: var(--terra); }
+.brand .ai { font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--terra);
+  margin-left: 6px; transform: translateY(-9px); display: inline-block; }
+
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.pillgroup { display: flex; align-items: center; background: var(--cream); border: 1px solid var(--line);
+  border-radius: var(--r-pill); padding: 5px; box-shadow: var(--sh-sm); }
+.pillgroup .seg { padding: 5px 11px; border-radius: var(--r-pill); font-size: 13px; font-weight: 600;
+  color: var(--ink-2); display: inline-flex; align-items: center; gap: 6px; }
+.pillgroup .seg .flag { width: 19px; height: 19px; border-radius: 50%; display: block;
+  background: linear-gradient(180deg,#1a1a1a 33%,#D8232A 33% 66%,#F5C542 66%); }
+.icon-btn { width: 40px; height: 40px; border-radius: var(--r-pill); display: grid; place-items: center;
+  background: var(--cream); border: 1px solid var(--line); color: var(--ink); box-shadow: var(--sh-sm);
+  transition: background .15s, transform .1s; }
+.icon-btn:hover { background: var(--cream-2); }
+.icon-btn:active { transform: scale(.95); }
+
+.btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: var(--r-pill);
+  background: var(--cream); border: 1px solid var(--line-2); font-weight: 600; font-size: 14px; color: var(--ink);
+  box-shadow: var(--sh-sm); transition: background .15s, transform .1s; white-space: nowrap; }
+.btn-outline:hover { background: var(--cream-2); }
+.btn-outline:active { transform: scale(.97); }
+
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 14px 22px; border-radius: var(--r-pill); background: var(--ink); color: #FCFAF5;
+  font-weight: 600; font-size: 15px; box-shadow: var(--sh-md); transition: background .15s, transform .1s; white-space: nowrap; }
+.btn-primary:hover { background: #3a342d; }
+.btn-primary:active { transform: scale(.98); }
+.btn-primary:disabled { opacity: .55; cursor: not-allowed; }
+
+.chip { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: var(--r-pill);
+  background: var(--terra-soft); color: var(--terra-deep); font-weight: 600; font-size: 14px;
+  border: 1px solid transparent; transition: background .15s, transform .1s, border-color .15s; white-space: nowrap; }
+.chip:hover { background: #ecccb8; }
+.chip:active { transform: scale(.96); }
+.chip.ghost { background: var(--cream); color: var(--ink-2); border-color: var(--line-2); box-shadow: var(--sh-sm); }
+.chip.ghost:hover { background: var(--cream-2); }
+
+/* ---------- composer ---------- */
+.composer { background: var(--cream); border: 1px solid var(--line-2); border-radius: var(--r-xl);
+  box-shadow: var(--sh-lg); padding: 18px 18px 12px; transition: border-color .15s, box-shadow .15s; }
+.composer:focus-within { border-color: var(--terra); box-shadow: 0 18px 50px rgba(194,104,63,.16), 0 4px 12px rgba(42,37,33,.07); }
+.composer textarea { width: 100%; border: none; outline: none; resize: none; background: transparent;
+  font-size: 16px; line-height: 1.5; color: var(--ink); min-height: 26px; }
+.composer textarea::placeholder { color: var(--faint); }
+.composer-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.composer-tools { display: flex; align-items: center; gap: 4px; }
+.tool { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; color: var(--muted);
+  transition: background .15s, color .15s; }
+.tool:hover { background: var(--cream-2); color: var(--ink); }
+.send { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--terra); color: #fff; box-shadow: var(--sh-sm); transition: transform .1s, background .15s; }
+.send:hover { background: var(--terra-deep); }
+.send:active { transform: scale(.93); }
+.send.disabled { background: var(--line-2); color: var(--cream); cursor: default; pointer-events: none; }
+
+/* ---------- generic card ---------- */
+.card { background: var(--cream); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--sh-sm); }
+
+/* ---------- placeholder imagery ---------- */
+.ph { position: relative; overflow: hidden; background: var(--clay-tint);
+  display: grid; place-items: center; }
+.ph::before { content: ""; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(135deg, rgba(42,37,33,.045) 0 10px, transparent 10px 20px); }
+.ph .ph-label { position: relative; z-index: 1; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px; letter-spacing: .04em; color: var(--ink-2); opacity: .72; text-align: center;
+  padding: 4px 8px; max-width: 90%; }
+.ph.terra { background: var(--terra-soft); }
+.ph.green { background: var(--green-soft); }
+.ph.gold  { background: var(--gold-soft); }
+
+/* ---------- markdown body in chat ---------- */
+.md { font-size: 15.5px; line-height: 1.62; color: var(--ink); }
+.md p { margin: 0 0 12px; }
+.md p:last-child { margin-bottom: 0; }
+.md strong { font-weight: 700; }
+.md em { font-style: italic; }
+.md ul { margin: 4px 0 14px; padding-left: 4px; list-style: none; }
+.md li { position: relative; padding-left: 20px; margin-bottom: 9px; }
+.md li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--terra); }
+.md h3 { font-family: var(--font-display); font-weight: 700; font-size: 16px; margin: 18px 0 8px; }
+.md code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; background: var(--cream-2);
+  padding: 2px 6px; border-radius: 4px; }
+.md a { color: var(--terra-deep); text-underline-offset: 2px; }
+
+/* ---------- utility ---------- */
+.fade-in { animation: fadeIn .45s ease both; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise .5s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 1s linear infinite; }
+.dots span { display: inline-block; width: 6px; height: 6px; margin: 0 2px; border-radius: 50%;
+  background: var(--muted); animation: blink 1.2s infinite both; }
+.dots span:nth-child(2) { animation-delay: .2s; }
+.dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+
+/* ============================================================
+   LAYOUT — state driven
+   ============================================================ */
+#app { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* --- landing --- */
+.landing-view { flex: 1; display: none; }
+[data-state="landing"] .landing-view { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40;
+  align-items: center; max-width: 1280px; width: 100%; margin: 0 auto; padding: 20px 48px 60px; }
+[data-state="landing"] .topbar-extra { display: none; }
+.landing-left { max-width: 560px; }
+.landing-left h1 { font-size: 58px; margin: 0 0 18px; color: var(--ink); }
+.landing-left .subtitle { font-size: 18px; line-height: 1.5; color: var(--ink-2); margin: 0 0 30px; max-width: 460px; }
+.landing-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.landing-right { display: flex; justify-content: center; }
+
+/* hero clover */
+.hero-clover { position: relative; width: 460px; height: 470px; }
+.hero-clover .hc { position: absolute; }
+
+/* --- chat layout --- */
+.chat-layout { flex: 1; display: none; overflow: hidden; border-top: 1px solid var(--line); max-height: calc(100vh - 64px); }
+[data-state="planning"] .chat-layout,
+[data-state="generating"] .chat-layout,
+[data-state="plan"] .chat-layout { display: grid; grid-template-columns: 46fr 54fr; }
+
+.chat-col-left { display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid var(--line); max-height: calc(100vh - 64px); }
+.chat-messages { flex: 1; overflow-y: auto; padding: 34px 40px 10px; }
+.chat-messages-inner { max-width: 620px; margin: 0 auto; }
+.chat-footer { padding: 6px 40px 18px; }
+.chat-footer-inner { max-width: 620px; margin: 0 auto; }
+.chat-feedback { font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 12px; }
+.chat-feedback a { color: var(--terra-deep); }
+
+/* hide left col during generating in mobile; always visible on desktop per design */
+[data-state="generating"] .chat-col-left { display: flex; }
+
+.chat-col-right { overflow: hidden; max-height: calc(100vh - 64px); }
+
+/* topbar extras per state */
+[data-state="planning"] .topbar-share,
+[data-state="generating"] .topbar-share,
+[data-state="landing"] .topbar-share { display: none; }
+[data-state="landing"] .topbar-new,
+[data-state="generating"] .topbar-new { display: none; }
+[data-state="planning"] .topbar-center,
+[data-state="generating"] .topbar-center,
+[data-state="landing"] .topbar-center { display: none; }
+
+/* ============================================================
+   CHAT MESSAGES
+   ============================================================ */
+.msg-user { display: flex; justify-content: flex-end; margin-bottom: 26px; animation: rise .5s cubic-bezier(.2,.7,.3,1) both; }
+.msg-user .bubble { background: var(--bubble); color: var(--ink); padding: 14px 18px;
+  border-radius: 20px 20px 6px 20px; max-width: 78%; font-size: 15.5px; line-height: 1.55;
+  white-space: pre-wrap; word-wrap: break-word; }
+.msg-ai { margin-bottom: 22px; animation: rise .5s cubic-bezier(.2,.7,.3,1) both; }
+.msg-ai .copy-btn { margin-left: -8px; margin-top: 2px; }
+.msg-typing { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; animation: rise .5s cubic-bezier(.2,.7,.3,1) both; }
+.msg-typing .spark { width: 28px; height: 28px; border-radius: 50%; background: var(--terra-soft);
+  display: grid; place-items: center; color: var(--terra-deep); flex: 0 0 auto; }
+
+/* suggestions */
+.suggestions-row { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 14px; }
+
+/* gen progress */
+.gen-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.gen-progress-row .spark { width: 30px; height: 30px; border-radius: 50%; background: var(--terra-soft);
+  color: var(--terra-deep); display: grid; place-items: center; flex: 0 0 auto; }
+.gen-progress-row .label { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+
+/* version card */
+.version-card { background: var(--cream-2); border: 1px solid var(--line-2); border-radius: var(--r-md);
+  padding: 14px 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.version-card .vc-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--terra-soft);
+  color: var(--terra-deep); display: grid; place-items: center; flex: 0 0 auto; }
+.version-card .vc-title { font-weight: 600; font-size: 15px; }
+.version-card .vc-sub { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+/* ============================================================
+   CHECKLIST PANEL
+   ============================================================ */
+.checklist-panel { height: 100%; overflow-y: auto; background: var(--clay-tint);
+  display: flex; flex-direction: column; justify-content: center; padding: 40px 56px; }
+.cl-inner { max-width: 460px; width: 100%; margin: 0 auto; }
+.cl-header { display: flex; align-items: center; gap: 16px; margin-bottom: 30px; }
+.cl-ring { flex: 0 0 auto; }
+.cl-ring-label { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--muted); }
+.cl-ring-title { font-size: 26px; margin: 2px 0; }
+.cl-ring-sub { font-size: 14.5px; color: var(--ink-2); }
+.cl-items { display: flex; flex-direction: column; gap: 22px; margin-bottom: 30px; }
+.cl-item { display: flex; gap: 14px; align-items: flex-start; }
+.cl-item .cl-check { flex: 0 0 auto; margin-top: 1px; }
+.cl-item .cl-check.done { width: 30px; height: 30px; border-radius: 50%; background: var(--ink);
+  color: #FCFAF5; display: grid; place-items: center; }
+.cl-item .cl-check.pending { width: 30px; height: 30px; border-radius: 50%;
+  border: 2px dashed var(--clay-tint-2); background: rgba(255,255,255,.35); }
+.cl-item .cl-label { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700;
+  letter-spacing: .09em; }
+.cl-item.filled .cl-label { color: var(--ink-2); }
+.cl-item.pending .cl-label { color: var(--muted); }
+.cl-item .cl-value { font-size: 17px; margin-top: 3px; }
+.cl-item.filled .cl-value { font-weight: 600; color: var(--ink); }
+.cl-item.pending .cl-value { font-weight: 400; color: var(--muted); font-style: italic; }
+.cl-generate { background: var(--cream); border-radius: var(--r-lg); padding: 22px; }
+.cl-generate .btn-primary { width: 100%; }
+.cl-generate .hint { font-size: 13px; color: var(--muted); text-align: center; margin: 14px 4px 0; line-height: 1.45; }
+
+/* ============================================================
+   GENERATING PANEL
+   ============================================================ */
+.generating-panel { height: 100%; overflow-y: auto; background: var(--clay-tint);
+  display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; }
+.gen-title { font-size: 27px; margin-bottom: 38px; text-align: center; }
+.gen-cards { display: flex; align-items: center; gap: -6px; margin-bottom: 46px; }
+.gen-card { flex: 0 0 auto; }
+.gen-card-inner { padding: 8px; background: var(--cream); border-radius: 18px; box-shadow: var(--sh-md); }
+.gen-card-inner.highlight { padding: 10px; background: var(--terra); }
+.gen-steps { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 440px; }
+.gen-step { display: flex; align-items: center; gap: 14px; transition: opacity .4s; }
+.gen-step.pending { opacity: .45; }
+.gen-step .gs-icon { flex: 0 0 auto; width: 26px; height: 26px; display: grid; place-items: center; }
+.gen-step .gs-icon.done { width: 26px; height: 26px; border-radius: 50%; background: var(--green);
+  color: #fff; display: grid; place-items: center; }
+.gen-step .gs-icon.active .spinner { display: inline-block; width: 22px; height: 22px;
+  border: 2.5px solid var(--clay-tint-2); border-top-color: var(--terra); border-radius: 50%;
+  animation: spin 1s linear infinite; }
+.gen-step .gs-icon.pending .circle { display: inline-block; width: 22px; height: 22px; border-radius: 50%;
+  border: 2.5px solid var(--clay-tint-2); }
+.gen-step .gs-label { font-size: 16px; }
+.gen-step.active .gs-label { font-weight: 600; color: var(--ink); }
+.gen-step.pending .gs-label { color: var(--muted); }
+.gen-step.done .gs-label { color: var(--ink); }
+
+/* ============================================================
+   ITINERARY PANEL
+   ============================================================ */
+.plan-panel { height: 100%; overflow-y: auto; padding: 20px 44px 80px; }
+
+/* reorder chips */
+.reorder-chips { position: sticky; top: 0; z-index: 20; display: flex; justify-content: center;
+  padding-bottom: 6px; pointer-events: none; }
+.reorder-chips .inner { display: flex; gap: 6px; padding: 6px; border-radius: var(--r-pill);
+  box-shadow: var(--sh-md); pointer-events: auto; }
+.reorder-chips .rc-item { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px 5px 6px;
+  border-radius: var(--r-pill); font-size: 13.5px; font-weight: 600; }
+.reorder-chips .rc-num { width: 22px; height: 22px; border-radius: 50%; background: var(--terra-soft);
+  color: var(--terra-deep); display: grid; place-items: center; font-size: 12px; }
+
+/* trip hero */
+.trip-hero { display: flex; gap: 26px; margin-top: 8px; margin-bottom: 34px; }
+.trip-hero-img { flex: 0 0 auto; text-align: center; }
+.trip-hero-img a { font-size: 13.5px; color: var(--ink-2); text-decoration: underline; display: inline-block; margin-top: 8px; }
+.trip-hero-body { flex: 1; padding-top: 6px; }
+.trip-hero-body h1 { font-size: 32px; margin: 0 0 16px; line-height: 1.08; }
+.stat-pills { display: flex; flex-wrap: wrap; gap: 12px 22px; }
+.stat-pill { display: inline-flex; align-items: center; gap: 7px; font-size: 14.5px; color: var(--ink-2); }
+
+/* route stepper */
+.route-stepper { display: flex; align-items: center; flex-wrap: wrap; row-gap: 12px; justify-content: center;
+  margin-bottom: 24px; }
+.route-stepper .endpoint { display: inline-flex; align-items: center; gap: 6px; font-weight: 600;
+  font-size: 14px; flex: 0 0 auto; }
+.route-stepper .conn { display: flex; align-items: center; flex: 0 0 auto; }
+.route-stepper .conn-line { width: 18px; height: 1px; background: var(--line-2); }
+.route-stepper .conn-icon { width: 30px; height: 30px; border-radius: 50%; background: var(--cream);
+  border: 1px solid var(--line-2); display: grid; place-items: center; color: var(--ink-2); }
+.route-stepper .city-pill { padding: 8px 16px; border-radius: var(--r-pill); flex: 0 0 auto; }
+.route-stepper .city-pill .name { font-weight: 600; font-size: 14.5px; }
+.route-stepper .city-pill .dates { font-size: 12.5px; color: var(--muted); }
+
+/* map placeholder */
+.map-placeholder { position: relative; margin-bottom: 36px; }
+.map-placeholder .map-btn { position: absolute; right: 16px; bottom: 16px; }
+
+/* timeline node */
+.tl-node { display: grid; grid-template-columns: 116px 48px 1fr; column-gap: 14px; }
+.tl-node .tl-label { text-align: right; padding-top: 8px; }
+.tl-node .tl-label .primary { font-weight: 700; font-size: 14px; }
+.tl-node .tl-label .secondary { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.tl-node .tl-center { position: relative; display: flex; justify-content: center; }
+.tl-node .tl-line { position: absolute; top: 6px; bottom: -34px; left: 50%; width: 2px;
+  transform: translateX(-50%); background: var(--line-2); }
+.tl-node.last .tl-line { display: none; }
+.tl-node .tl-dot { position: relative; width: 44px; height: 44px; border-radius: 50%; background: var(--ink);
+  color: #FCFAF5; display: grid; place-items: center; margin-top: 2px; z-index: 1; }
+.tl-node .tl-content { padding-bottom: 34px; min-width: 0; }
+
+/* city header */
+.city-header .city-name { font-size: 30px; }
+.city-header .city-blurb { font-size: 15.5px; color: var(--ink-2); margin-top: 6px; line-height: 1.5; }
+.city-gallery { display: flex; gap: 10px; overflow: hidden; border-radius: var(--r-md); margin-top: 14px; position: relative; }
+.city-gallery .cg-main { flex: 2 1 0; height: 230px; }
+.city-gallery .cg-side { flex: 1 1 0; height: 230px; }
+.city-gallery .cg-next { position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
+  width: 40px; height: 40px; box-shadow: var(--sh-md); }
+
+/* flight card */
+.flight-card { padding: 18px; border-radius: var(--r-md); }
+.flight-card .fc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.flight-card .fc-airline { font-weight: 700; font-size: 14px; color: var(--ink-2); }
+.flight-card .fc-class { background: var(--terra-soft); color: var(--terra-deep); font-weight: 600;
+  font-size: 12.5px; padding: 4px 10px; border-radius: var(--r-pill); }
+.flight-card .fc-route { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; }
+.flight-card .fc-iata { font-size: 28px; }
+.flight-card .fc-time { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.flight-card .fc-path { text-align: center; min-width: 130px; }
+.flight-card .fc-dur { font-size: 12.5px; color: var(--muted); }
+.flight-card .fc-line { position: relative; height: 2px; background: var(--line-2); border-radius: 2px; margin: 6px 0; }
+.flight-card .fc-plane { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) rotate(90deg);
+  background: var(--clay-tint); border-radius: 50%; padding: 2px; color: var(--ink); }
+.flight-card .fc-stops { font-size: 12.5px; color: var(--muted); }
+.flight-card .fc-bottom { display: flex; justify-content: space-between; align-items: center;
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.flight-card .fc-price { font-size: 24px; }
+.flight-card .fc-price .route-label { font-size: 12.5px; color: var(--muted); font-weight: 400; margin-left: 8px; }
+
+/* change/delete buttons */
+.change-delete { display: flex; gap: 8px; align-items: center; }
+.change-delete .btn-change { padding: 8px 14px; font-size: 13.5px; border-color: var(--terra-soft); }
+.change-delete .btn-trash { width: 38px; height: 38px; border-color: var(--terra-soft); }
+
+/* drive bar */
+.drive-bar { padding: 18px; border-radius: var(--r-md); }
+.drive-bar .db-cities { display: flex; justify-content: space-between; font-weight: 600; font-size: 16px; }
+.drive-bar .db-track { position: relative; height: 4px; background: var(--clay-tint); border-radius: 4px; margin: 14px 0; }
+.drive-bar .db-car { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  background: var(--cream); padding: 2px 4px; color: var(--ink); }
+.drive-bar .db-dates { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+.drive-bar .db-bottom { display: flex; justify-content: space-between; align-items: center;
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.drive-bar .db-meta { font-size: 13.5px; color: var(--ink-2); }
+
+/* transfer card */
+.transfer-card { display: flex; gap: 16px; padding: 14px; border-radius: var(--r-md); align-items: center; }
+.transfer-card .tc-price { font-size: 20px; margin-top: 4px; }
+.transfer-card .tc-per { font-size: 13px; color: var(--muted); font-weight: 400; }
+
+/* hotel card */
+.hotel-card { padding: 16px; border-radius: var(--r-md); }
+.hotel-card .hc-row { display: flex; gap: 16px; }
+.hotel-card .hc-img { width: 150px; height: 150px; flex: 0 0 auto; }
+.hotel-card .hc-body { flex: 1; min-width: 0; }
+.hotel-card .hc-stars { display: inline-flex; gap: 1px; color: var(--terra); }
+.hotel-card .hc-name { font-size: 21px; margin: 6px 0 4px; }
+.hotel-card .hc-type { font-size: 14px; color: var(--ink-2); }
+.hotel-card .hc-badges { display: flex; gap: 14px; margin: 8px 0; font-size: 13px; color: var(--green); font-weight: 600; }
+.hotel-card .hc-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 6px; }
+.hotel-card .hc-score { display: inline-flex; align-items: center; gap: 8px; }
+.hotel-card .hc-score-badge { background: var(--green); color: #fff; font-weight: 700; font-size: 14px;
+  padding: 3px 8px; border-radius: 8px 8px 8px 2px; }
+.hotel-card .hc-score-label { font-weight: 600; font-size: 14px; }
+.hotel-card .hc-pricing { text-align: right; }
+.hotel-card .hc-pricing .from { font-size: 12.5px; color: var(--muted); }
+.hotel-card .hc-pricing .amount { font-size: 26px; }
+.hotel-card .hc-pricing .tax { font-size: 11.5px; color: var(--muted); }
+.hotel-card .hc-actions { display: flex; justify-content: flex-end; margin-top: 10px; }
+.ai-note { display: flex; gap: 8px; align-items: flex-start; background: var(--terra-soft);
+  border-radius: 12px; padding: 10px 14px; margin-top: 10px; font-size: 13.5px;
+  color: var(--terra-deep); line-height: 1.45; }
+
+/* day row */
+.day-row { display: flex; align-items: center; gap: 14px; padding: 12px;
+  border-radius: var(--r-md); width: 100%; text-align: left; transition: box-shadow .15s, transform .1s; }
+.day-row:hover { box-shadow: var(--sh-md); }
+.day-row .dr-img { width: 74px; height: 60px; flex: 0 0 auto; }
+.day-row .dr-body { flex: 1; min-width: 0; }
+.day-row .dr-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin-bottom: 3px; }
+.day-row .dr-badge { background: var(--terra-soft); color: var(--terra-deep); font-weight: 700;
+  padding: 2px 9px; border-radius: var(--r-pill); }
+.day-row .dr-title { font-weight: 600; font-size: 16px; }
+.day-row .dr-chev { color: var(--muted); flex: 0 0 auto; }
+
+/* booking note */
+.booking-note { display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  background: var(--cream-2); border: 1px solid var(--line); border-radius: 12px;
+  font-size: 12.5px; color: var(--muted); margin-top: 14px; }
+
+/* ============================================================
+   SHIMMER / ENRICHMENT LOADING STATES
+   ============================================================ */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.ph-shimmer {
+  background: linear-gradient(90deg, var(--clay-tint) 25%, var(--cream-2) 50%, var(--clay-tint) 75%);
+  background-size: 1200px 100%;
+  animation: shimmer 1.8s infinite linear;
+  border-radius: 6px;
+}
+@keyframes patchRise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.patch-rise { animation: patchRise .35s ease-out; }
+.enrich-status {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  background: var(--cream-2); border: 1px solid var(--line); border-radius: 10px;
+  font-size: 12.5px; color: var(--muted); margin-bottom: 14px;
+  position: sticky; top: 0; z-index: 10;
+}
+.enrich-status .spinner { width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--clay-tint-2); border-top-color: var(--terra);
+  animation: spin .7s linear infinite; flex: 0 0 auto; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  [data-state="landing"] .landing-view { grid-template-columns: 1fr; }
+  .landing-right { display: none; }
+  .landing-left h1 { font-size: 42px; }
+  [data-state="planning"] .chat-layout,
+  [data-state="generating"] .chat-layout,
+  [data-state="plan"] .chat-layout { grid-template-columns: 1fr; max-height: inherit }
+  .chat-col-right { border-top: 1px solid var(--line); max-height: inherit; }
+  .chat-col-left { max-height: 50vh; }
+  .tl-node { grid-template-columns: 80px 40px 1fr; column-gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div id="app" data-state="landing">
+
+<!-- ============================================================
+     TOP BAR
+     ============================================================ -->
+<div class="topbar">
+  <div class="brand">Chatty&nbsp;Edge<span class="dot">.</span><span class="ai">AI</span></div>
+  <div class="topbar-center" id="topbarCenter" style="position:absolute;left:50%;transform:translateX(-50%)"></div>
+  <div class="topbar-right">
+    <button class="btn-outline topbar-share topbar-extra" id="shareBtn" type="button"></button>
+    <button class="btn-outline topbar-new topbar-extra" id="newTripBtn" type="button"></button>
+    <div class="pillgroup">
+      <span class="seg">&euro;</span>
+      <span class="seg" style="padding:5px 8px"><span class="flag"></span></span>
+      <span class="seg">&deg;C</span>
+    </div>
+    <button class="icon-btn" id="userBtn" type="button"></button>
+  </div>
+</div>
+
+<!-- ============================================================
+     LANDING VIEW
+     ============================================================ -->
+<div class="landing-view">
+  <div class="landing-left fade-in">
+    <h1 class="display">Your trip.<br>Planned in minutes.</h1>
+    <p class="subtitle">Live prices, everything in one place, and a human expert whenever you want one.</p>
+    <div class="composer" id="landingComposerBox" style="padding:22px 22px 14px">
+      <textarea id="landingPrompt" rows="1" placeholder="Where to? Tell me your dream trip&hellip;"
+        style="font-size:17px;min-height:58px"></textarea>
+      <div class="composer-row">
+        <div class="composer-tools"></div>
+        <div class="composer-tools">
+          <button class="send disabled" id="landingSendBtn" type="button"></button>
+        </div>
+      </div>
+    </div>
+    <div class="landing-chips" id="landingChips">
+      <button class="chip" disabled style="opacity:.45;cursor:default;background:var(--cream-2);color:var(--muted)" type="button">Plan a new trip</button>
+      <button class="chip" disabled style="opacity:.45;cursor:default;background:var(--cream-2);color:var(--muted)" type="button">Inspire me where to go</button>
+      <button class="chip" disabled style="opacity:.45;cursor:default;background:var(--cream-2);color:var(--muted)" type="button">Plan a road trip</button>
+      <button class="chip" disabled style="opacity:.45;cursor:default;background:var(--cream-2);color:var(--muted)" type="button">Plan a last-minute getaway</button>
+    </div>
+    <div class="landing-chips">
+      <p style="font-size: var(--r-sm); color: var(--muted);">This is a Fastly compute Demo. The prices shown my not apply. The repo can be found <a style="font-size: var(--r-sm); color: var(--muted);" href="https://github.com/saschanowak/fastly-compute-ai-trip-planer">here</a>.</p>
+    </div>
+  </div>
+  <div class="landing-right fade-in" style="animation-delay:.1s">
+    <div class="hero-clover">
+      <div class="ph green hc" style="border-radius:50%;top:0;left:30px;width:240px;height:240px">
+        <span class="ph-label">jungle path &middot; bali</span></div>
+      <div class="ph green hc" style="border-radius:50%;top:14px;left:210px;width:230px;height:230px">
+        <span class="ph-label">palms &middot; seychelles</span></div>
+      <div class="ph gold hc" style="border-radius:50%;top:200px;left:18px;width:250px;height:250px">
+        <span class="ph-label">beach club</span></div>
+      <div class="ph hc" style="border-radius:50%;top:212px;left:210px;width:236px;height:236px">
+        <span class="ph-label">white sand</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CHAT LAYOUT (planning / generating / plan)
+     ============================================================ -->
+<div class="chat-layout" id="chatLayout">
+  <!-- LEFT — conversation -->
+  <div class="chat-col-left">
+    <div class="chat-messages scroll" id="chatMessages">
+      <div class="chat-messages-inner" id="messagesInner"></div>
+    </div>
+    <div class="chat-footer">
+      <div class="chat-footer-inner">
+        <div id="genProgressRow" class="gen-progress-row" style="display:none">
+          <div class="spark" id="genProgressSpark"></div>
+          <div class="label" id="genProgressLabel"></div>
+          <div class="dots" style="margin-left:2px"><span></span><span></span><span></span></div>
+        </div>
+        <div id="versionCard" class="version-card" style="display:none">
+          <div class="vc-icon" id="versionIcon"></div>
+          <div><div class="vc-title" id="versionTitle"></div><div class="vc-sub">Latest version &middot; Version 1</div></div>
+        </div>
+        <div id="suggestionsRow" class="suggestions-row" style="display:none"></div>
+        <div class="composer" id="chatComposerBox" style="border-radius:24px">
+          <textarea id="chatPrompt" rows="1" placeholder="Ask anything&hellip;"></textarea>
+          <div class="composer-row">
+            <div class="composer-tools">
+              <button class="tool disabled" type="button" id="attachBtn" disabled></button>
+            </div>
+            <div class="composer-tools">
+              <button class="tool disabled" type="button" id="calendarBtn" disabled></button>
+              <button class="send disabled" id="chatSendBtn" type="button"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT — context panel -->
+  <div class="chat-col-right" id="chatColRight">
+    <!-- Checklist -->
+    <div id="checklistPanel" class="checklist-panel scroll">
+      <div class="cl-inner">
+        <div class="cl-header">
+          <div class="cl-ring" id="clRing"></div>
+          <div>
+            <div class="cl-ring-label">TRIP CHECKLIST</div>
+            <div class="cl-ring-title display">Your trip is taking shape</div>
+            <div class="cl-ring-sub" id="clSub">0 of 5 captured</div>
+          </div>
+        </div>
+        <div class="cl-items" id="clItems"></div>
+        <div class="cl-generate card">
+          <button class="btn-primary" id="generateBtn" type="button"></button>
+          <p class="hint">Edie builds it now and fills in anything you skipped &mdash; or keep chatting and she'll start once the checklist is full.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Generating -->
+    <div id="generatingPanel" class="generating-panel" style="display:none"></div>
+    <!-- Plan / Itinerary -->
+    <div id="planPanel" class="plan-panel scroll" style="display:none"></div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<script>
+/* ============================================================
+   ICON SYSTEM
+   ============================================================ */
+var ICON_PATHS = {
+  pin:      '<path d="M12 21s6.5-5.8 6.5-11A6.5 6.5 0 0 0 5.5 10c0 5.2 6.5 11 6.5 11Z"/><circle cx="12" cy="10" r="2.4"/>',
+  plane:    '<path d="M21 16.5 14 12V5.5a1.5 1.5 0 0 0-3 0V12L4 16.5V18l7-2v3.2L8.8 20.7V22L12 21l3.2 1v-1.3L13 19.2V16l8 2v-1.5Z"/>',
+  car:      '<path d="M5 17h14M4.5 12.5 6 8a2 2 0 0 1 1.9-1.3h8.2A2 2 0 0 1 18 8l1.5 4.5M4 17v-4.5h16V17a1 1 0 0 1-1 1h-1.5a1 1 0 0 1-1-1m-9 0a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1"/><circle cx="7.5" cy="14.7" r="0.6"/><circle cx="16.5" cy="14.7" r="0.6"/>',
+  calendar: '<rect x="4" y="5.5" width="16" height="15" rx="2.5"/><path d="M4 9.5h16M8.5 3.5v3M15.5 3.5v3"/>',
+  heart:    '<path d="M12 20.5C6.5 16.5 3.5 13 3.5 9.2A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 8.5 2.2c0 3.8-3 7.3-8.5 11.3Z"/>',
+  users:    '<circle cx="9" cy="8.5" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 6.2a3 3 0 0 1 0 5.6M16.5 19a5.5 5.5 0 0 0-2.2-4.4"/>',
+  bed:      '<path d="M3.5 18v-9M3.5 12.5h13a4 4 0 0 1 4 4V18M3.5 15.5h17M7.5 12.5v-2a1.5 1.5 0 0 1 1.5-1.5h5a1.5 1.5 0 0 1 1.5 1.5v2"/>',
+  star:     '<path d="M12 3.5l2.5 5.3 5.8.8-4.2 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.2-4 5.8-.8L12 3.5Z"/>',
+  starfill: '<path d="M12 3.5l2.5 5.3 5.8.8-4.2 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.2-4 5.8-.8L12 3.5Z" fill="currentColor" stroke="none"/>',
+  share:    '<path d="M12 15V4M12 4 8.5 7.5M12 4l3.5 3.5M5 12.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5.5"/>',
+  plus:     '<path d="M12 5v14M5 12h14"/>',
+  send:     '<path d="M12 19V6M12 6l-5 5M12 6l5 5"/>',
+  paperclip:'<path d="M19 11.5 12 18.5a4 4 0 0 1-5.7-5.7l7-7a2.5 2.5 0 0 1 3.5 3.5l-7 7a1 1 0 0 1-1.4-1.4l6.3-6.3"/>',
+  check:    '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  chevR:    '<path d="M9 5l7 7-7 7"/>',
+  spark:    '<path d="M12 3.5c.6 3.7 1.8 4.9 5.5 5.5-3.7.6-4.9 1.8-5.5 5.5-.6-3.7-1.8-4.9-5.5-5.5 3.7-.6 4.9-1.8 5.5-5.5ZM18.5 14c.3 1.7.8 2.2 2.5 2.5-1.7.3-2.2.8-2.5 2.5-.3-1.7-.8-2.2-2.5-2.5 1.7-.3 2.2-.8 2.5-2.5Z"/>',
+  swap:     '<path d="M7 8h11M7 8l3-3M7 8l3 3M17 16H6M17 16l-3-3M17 16l-3 3"/>',
+  trash:    '<path d="M5 7h14M9.5 7V5.5A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.5 1.5V7M6.5 7l.8 11a2 2 0 0 0 2 1.9h5.4a2 2 0 0 0 2-1.9L17.5 7"/>',
+  user:     '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/>',
+  copy:     '<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
+  cloud:    '<path d="M7.5 18a4 4 0 0 1-.3-8 5.5 5.5 0 0 1 10.6 1.3A3.5 3.5 0 0 1 17 18Z"/>',
+  rain:     '<path d="M7.5 15a4 4 0 0 1-.3-8 5.5 5.5 0 0 1 10.6 1.3A3.5 3.5 0 0 1 17 15M9 18l-1 2.5M13 18l-1 2.5M17 18l-1 2.5"/>',
+  sun:      '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8 6 18M18 6l1.8-1.8"/>',
+  map:      '<path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4ZM9 4v14M15 6v14"/>',
+  utensils: '<path d="M7 4v7a2 2 0 0 0 2 2v7M5 4v4M9 4v4M16 4c-1.5 0-2.5 2-2.5 4.5S14.5 13 16 13v7M16 4v9"/>',
+  refresh:  '<path d="M19 8a7 7 0 0 0-12-2L5 8M5 8V4M5 8h4M5 16a7 7 0 0 0 12 2l2-2M19 16v4M19 16h-4"/>',
+};
+
+function iconSvg(name, size, stroke) {
+  size = size || 22;
+  stroke = stroke || 2;
+  var d = ICON_PATHS[name] || '';
+  var fill = name === 'starfill' ? 'currentColor' : 'none';
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="' + fill +
+    '" stroke="currentColor" stroke-width="' + stroke +
+    '" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
+}
+
+/* inject static icon buttons */
+document.getElementById('landingSendBtn').innerHTML = iconSvg('send', 19);
+document.getElementById('chatSendBtn').innerHTML = iconSvg('send', 19);
+document.getElementById('attachBtn').innerHTML = iconSvg('paperclip', 19);
+document.getElementById('calendarBtn').innerHTML = iconSvg('calendar', 18);
+document.getElementById('userBtn').innerHTML = iconSvg('user', 19);
+document.getElementById('shareBtn').innerHTML = iconSvg('share', 17) + ' Share';
+document.getElementById('newTripBtn').innerHTML = iconSvg('plus', 17) + ' New trip';
+document.getElementById('generateBtn').innerHTML = iconSvg('spark', 18) + ' Generate my trip';
+document.getElementById('genProgressSpark').innerHTML = iconSvg('spark', 16);
+document.getElementById('versionIcon').innerHTML = iconSvg('map', 18);
+
+/* ============================================================
+   SECURITY — HTML escape
+   ============================================================ */
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* ============================================================
+   MARKDOWN renderer — **bold**, *italic*, bullets, ### h3, `code`, links
+   ============================================================ */
+function mdInline(text) {
+  var s = esc(text);
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/(^|[^*])\*(?!\s)([^*]+?)\*/g, '$1<em>$2</em>');
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  return s;
+}
+
+function renderMarkdown(text) {
+  if (!text) return '';
+  var lines = String(text).split('\n');
+  var blocks = [];
+  var list = null;
+  function flush() { if (list) { blocks.push({ type: 'ul', items: list }); list = null; } }
+  lines.forEach(function(raw) {
+    var line = raw.trimEnd();
+    if (/^\s*[-*•]\s+/.test(line)) {
+      list = list || [];
+      list.push(line.replace(/^\s*[-*•]\s+/, ''));
+    } else if (/^###\s+/.test(line)) {
+      flush(); blocks.push({ type: 'h3', text: line.replace(/^###\s+/, '') });
+    } else if (line.trim() === '') {
+      flush();
+    } else {
+      flush(); blocks.push({ type: 'p', text: line });
+    }
+  });
+  flush();
+  var html = '<div class="md">';
+  blocks.forEach(function(b) {
+    if (b.type === 'ul') {
+      html += '<ul>';
+      b.items.forEach(function(it) { html += '<li>' + mdInline(it) + '</li>'; });
+      html += '</ul>';
+    } else if (b.type === 'h3') {
+      html += '<h3>' + mdInline(b.text) + '</h3>';
+    } else {
+      html += '<p>' + mdInline(b.text) + '</p>';
+    }
+  });
+  html += '</div>';
+  return html;
+}
+
+/* ============================================================
+   PROGRESS RING (SVG)
+   ============================================================ */
+function ringHtml(value, total, size) {
+  size = size || 52;
+  var r = (size - 7) / 2;
+  var c = 2 * Math.PI * r;
+  var pct = total ? value / total : 0;
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '" style="transform:rotate(-90deg)">' +
+    '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + r + '" fill="none" stroke="var(--terra-soft)" stroke-width="3.5"/>' +
+    '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + r + '" fill="none" stroke="var(--terra)" stroke-width="3.5"' +
+    ' stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + (c * (1 - pct)) + '"' +
+    ' style="transition:stroke-dashoffset .6s cubic-bezier(.2,.7,.3,1)"/>' +
+    '</svg>';
+}
+
+/* ============================================================
+   STATE MACHINE
+   ============================================================ */
+var appEl = document.getElementById('app');
+var messagesEl = document.getElementById('messagesInner');
+var chatMessagesEl = document.getElementById('chatMessages');
+
+var appState = 'landing';
+var currentChecklist = null;
+var conversationHistory = [];
+var detectedDeparture = '';
+var currentTrip = null;
+var currentTripId = null;
+var totalTokens = 0;
+var autostartTimer = null;
+
+function trackTokens(res) {
+  var t = parseInt(res.headers.get('X-Token-Total') || '0', 10);
+  if (t > 0) {
+    totalTokens += t;
+    document.getElementById('tokenCounter').textContent = totalTokens.toLocaleString() + ' tokens';
+  }
+}
+
+function setState(state) {
+  appState = state;
+  appEl.dataset.state = state;
+
+  var checklistPanel = document.getElementById('checklistPanel');
+  var generatingPanel = document.getElementById('generatingPanel');
+  var planPanel = document.getElementById('planPanel');
+
+  checklistPanel.style.display = (state === 'planning') ? '' : 'none';
+  generatingPanel.style.display = (state === 'generating') ? '' : 'none';
+  planPanel.style.display = (state === 'plan') ? '' : 'none';
+
+  if (state === 'landing') {
+    document.getElementById('landingPrompt').focus();
+  } else if (state === 'planning' || state === 'plan') {
+    document.getElementById('chatPrompt').focus();
+  }
+}
+
+/* ============================================================
+   MESSAGE HELPERS
+   ============================================================ */
+function appendUser(text) {
+  var div = document.createElement('div');
+  div.className = 'msg-user';
+  div.innerHTML = '<div class="bubble">' + esc(text) + '</div>';
+  messagesEl.appendChild(div);
+  scrollChat();
+}
+
+function appendAI(content) {
+  var div = document.createElement('div');
+  div.className = 'msg-ai';
+  div.innerHTML = renderMarkdown(content);
+  messagesEl.appendChild(div);
+  scrollChat();
+}
+
+function appendTyping() {
+  var div = document.createElement('div');
+  div.className = 'msg-typing';
+  div.id = 'typingMsg';
+  div.innerHTML = '<div class="spark">' + iconSvg('spark', 16) + '</div>' +
+    '<div class="dots"><span></span><span></span><span></span></div>';
+  messagesEl.appendChild(div);
+  scrollChat();
+}
+
+function removeTyping() {
+  var t = document.getElementById('typingMsg');
+  if (t) t.remove();
+}
+
+function scrollChat() {
+  requestAnimationFrame(function() {
+    chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+  });
+}
+
+/* ============================================================
+   CHECKLIST RENDERER
+   ============================================================ */
+var CL_KEYS = ['destination', 'departureFrom', 'travellers', 'when', 'interests'];
+var CL_DEFS = {
+  destination:   { icon: 'pin',      label: 'WHERE TO',          ask: "I'll pin down the destination." },
+  departureFrom: { icon: 'plane',    label: 'LEAVING FROM',      ask: "I'll ask where you set off." },
+  travellers:    { icon: 'users',    label: "WHO'S COMING",      ask: "I'll ask who's travelling." },
+  when:          { icon: 'calendar', label: 'WHEN',              ask: "I'll ask about your dates." },
+  interests:     { icon: 'heart',    label: "WHAT YOU'RE AFTER", ask: "I'll ask about your vibe." },
+};
+
+function renderChecklist(cl) {
+  if (!cl) return;
+  currentChecklist = cl;
+  var filled = CL_KEYS.filter(function(k) { return cl[k] && cl[k].status === 'filled'; }).length;
+
+  document.getElementById('clRing').innerHTML = ringHtml(filled, 5, 52);
+  document.getElementById('clSub').textContent = filled + ' of 5 captured';
+
+  var container = document.getElementById('clItems');
+  container.innerHTML = '';
+  CL_KEYS.forEach(function(key) {
+    var slot = cl[key] || { status: 'pending', value: null };
+    var done = slot.status === 'filled';
+    var def = CL_DEFS[key];
+    var div = document.createElement('div');
+    div.className = 'cl-item ' + (done ? 'filled' : 'pending');
+    div.innerHTML =
+      '<div class="cl-check ' + (done ? 'done' : 'pending') + '">' +
+        (done ? iconSvg('check', 17, 2.6) : '') +
+      '</div>' +
+      '<div style="padding-top:1px">' +
+        '<div class="cl-label">' + iconSvg(def.icon, 14, 2) + ' ' + esc(def.label) + '</div>' +
+        '<div class="cl-value">' + esc(done ? slot.value : def.ask) + '</div>' +
+      '</div>';
+    container.appendChild(div);
+  });
+}
+
+/* ============================================================
+   SUGGESTIONS
+   ============================================================ */
+function showSuggestions(items) {
+  var row = document.getElementById('suggestionsRow');
+  if (!items || !items.length) { row.style.display = 'none'; return; }
+  row.style.display = '';
+  row.innerHTML = '';
+  items.forEach(function(s) {
+    var btn = document.createElement('button');
+    btn.className = 'chip ghost';
+    btn.type = 'button';
+    btn.textContent = s;
+    btn.addEventListener('click', function() { sendMessage(s); });
+    row.appendChild(btn);
+  });
+}
+
+/* ============================================================
+   VERSION CARD
+   ============================================================ */
+function showVersionCard(title) {
+  var vc = document.getElementById('versionCard');
+  if (!title) { vc.style.display = 'none'; return; }
+  vc.style.display = '';
+  document.getElementById('versionTitle').textContent = title;
+}
+
+/* ============================================================
+   GEN PROGRESS ROW (in chat footer)
+   ============================================================ */
+function showGenProgress(pct) {
+  var row = document.getElementById('genProgressRow');
+  if (pct == null) { row.style.display = 'none'; return; }
+  row.style.display = '';
+  document.getElementById('genProgressLabel').textContent =
+    'Edie is generating your trip… ' + Math.round(pct) + '%';
+}
+
+/* ============================================================
+   TOPBAR CENTER (itinerary date/traveller pill)
+   ============================================================ */
+function showTopbarCenter(trip) {
+  var el = document.getElementById('topbarCenter');
+  if (!trip) { el.innerHTML = ''; return; }
+  el.innerHTML = '<div class="card" style="display:flex;align-items:center;gap:16px;padding:8px 16px;border-radius:var(--r-pill)">' +
+    '<span style="display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600">' +
+      iconSvg('calendar', 15) + ' ' + esc(fmtDateRange(trip.startDate, trip.endDate)) +
+    '</span>' +
+    '<span style="width:1px;height:16px;background:var(--line-2)"></span>' +
+    '<span style="display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600">' +
+      iconSvg('users', 15) + ' ' + esc(trip.travellers) +
+    '</span>' +
+  '</div>';
+}
+
+/* ============================================================
+   GENERATING SCREEN
+   ============================================================ */
+var GEN_STEP_LABELS = [
+  'Optimizing your route, start to finish',
+  'Scanning 2,000+ airlines for the best price',
+  'Reading a billion reviews for you',
+  'Finding hotels with member-only deals',
+  'Tailoring the plan to you',
+];
+
+function showGenerating(title) {
+  setState('generating');
+  var panel = document.getElementById('generatingPanel');
+  var html = '';
+
+  html += '<div class="gen-title display fade-in">' + esc(title || 'Generating your trip…') + '</div>';
+
+  /* decorative tilted cards */
+  html += '<div class="gen-cards fade-in">';
+  var cards = [
+    { label: 'coastal road', tone: 'gold', rot: -7, lift: 6, highlight: false },
+    { label: 'airport', tone: '', rot: 3, lift: -10, highlight: true },
+    { label: 'traveller', tone: 'terra', rot: -3, lift: 4, highlight: false },
+    { label: 'hotel lobby', tone: 'green', rot: 8, lift: 10, highlight: false },
+  ];
+  cards.forEach(function(c) {
+    html += '<div class="gen-card" style="transform:rotate(' + c.rot + 'deg) translateY(' + c.lift + 'px)">' +
+      '<div class="gen-card-inner' + (c.highlight ? ' highlight' : '') + '">' +
+        '<div class="ph ' + (c.tone || '') + '" style="border-radius:' + (c.highlight ? '50%' : '12px') + ';width:116px;height:150px">' +
+          '<span class="ph-label">' + esc(c.label) + '</span>' +
+        '</div>' +
+      '</div></div>';
+  });
+  html += '</div>';
+
+  /* step indicators */
+  html += '<div class="gen-steps" id="genStepsEl">';
+  GEN_STEP_LABELS.forEach(function(text, i) {
+    html += '<div class="gen-step pending" data-idx="' + i + '">' +
+      '<div class="gs-icon pending"><span class="circle"></span></div>' +
+      '<div class="gs-label">' + esc(text) + '</div>' +
+    '</div>';
+  });
+  html += '</div>';
+
+  panel.innerHTML = html;
+  showGenProgress(4);
+  animateGenerating();
+}
+
+var genTickerInterval = null;
+var enrichmentGeneration = 0; /* incremented on each new generate — guards stale enrichment callbacks */
+
+function animateGenerating() {
+  var steps = document.querySelectorAll('#genStepsEl .gen-step');
+  var current = 0;
+  var total = steps.length;
+
+  function tick() {
+    if (appState !== 'generating') return;
+    if (current > 0 && current <= total) {
+      steps[current - 1].className = 'gen-step done';
+      steps[current - 1].querySelector('.gs-icon').className = 'gs-icon done';
+      steps[current - 1].querySelector('.gs-icon').innerHTML = iconSvg('check', 15, 2.8);
+    }
+    if (current < total) {
+      steps[current].className = 'gen-step active';
+      steps[current].querySelector('.gs-icon').className = 'gs-icon active';
+      steps[current].querySelector('.gs-icon').innerHTML = '<span class="spinner"></span>';
+      current++;
+      setTimeout(tick, 750 + Math.random() * 2500);
+    }
+  }
+  setTimeout(tick, 750);
+}
+
+function finishGenerating() {
+  var steps = document.querySelectorAll('#genStepsEl .gen-step');
+  steps.forEach(function(s) {
+    s.className = 'gen-step done';
+    s.querySelector('.gs-icon').className = 'gs-icon done';
+    s.querySelector('.gs-icon').innerHTML = iconSvg('check', 15, 2.8);
+  });
+  showGenProgress(100);
+}
+
+/* ============================================================
+   STARS HELPER
+   ============================================================ */
+function starsHtml(n) {
+  var html = '';
+  for (var i = 0; i < (n || 5); i++) {
+    html += iconSvg('starfill', 14);
+  }
+  return html;
+}
+
+/* ============================================================
+   WEATHER
+   ============================================================ */
+var WEATHER_ICON_MAP = { sun: 'sun', cloud: 'cloud', rain: 'rain', storm: 'rain' };
+
+function weatherHtml(w) {
+  if (!w) return '';
+  var icon = WEATHER_ICON_MAP[w.icon] || 'sun';
+  return '<span style="display:inline-flex;align-items:center;gap:3px">&middot; ' +
+    iconSvg(icon, 14) + ' ' + w.tempC + '&deg;C</span>';
+}
+
+/* ============================================================
+   FORMAT DATES
+   ============================================================ */
+var MON_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function fmtDate(dateStr) {
+  if (!dateStr) return '';
+  var d = new Date(dateStr + 'T00:00:00');
+  return MON_ABBR[d.getMonth()] + ' ' + d.getDate();
+}
+
+function fmtDateRange(start, end) {
+  return fmtDate(start) + ' – ' + fmtDate(end);
+}
+
+/* ============================================================
+   STOPS LABEL
+   ============================================================ */
+function stopsLabel(n) {
+  if (n === 0) return 'Direct';
+  if (n === 1) return '1 stop';
+  return n + ' stops';
+}
+
+/* ============================================================
+   CHANGE / DELETE BUTTONS
+   ============================================================ */
+function changeDeleteHtml() {
+  return '<div class="change-delete">' +
+    '<button class="btn-outline btn-change" type="button">' + iconSvg('swap', 15) + ' Change</button>' +
+    '<button class="icon-btn btn-trash" type="button">' + iconSvg('trash', 16) + '</button>' +
+  '</div>';
+}
+
+/* ============================================================
+   TRIP PLAN V2 RENDERER — timeline layout
+   ============================================================ */
+function renderTripPlanV2(plan) {
+  currentTrip = plan;
+  var panel = document.getElementById('planPanel');
+  var html = '';
+  var stats = plan.stats || {};
+  var legs = plan.legs || [];
+
+  /* reorder chips */
+  html += '<div class="reorder-chips"><div class="inner card">';
+  legs.forEach(function(leg, i) {
+    html += '<span class="rc-item"><span class="rc-num">' + (i + 1) + '</span>' + esc(leg.city) + '</span>';
+  });
+  html += '</div></div>';
+
+  /* hero */
+  html += '<div class="trip-hero">';
+  html += '<div class="trip-hero-img">';
+  if (plan.heroImage) {
+    html += '<img src="' + esc(plan.heroImage) + '" alt="' + esc(plan.destinationName) + '" style="width:168px;height:168px;border-radius:20px;object-fit:cover">';
+  } else {
+    html += '<div class="ph green" style="width:168px;height:168px;border-radius:20px"><span class="ph-label">' + esc((plan.destinationName || '').toLowerCase() + ' · resort') + '</span></div>';
+  }
+  html += '</div>';
+  html += '<div class="trip-hero-body">';
+  html += '<h1 class="display">' + esc(plan.title) + '</h1>';
+  html += '<div class="stat-pills">';
+  html += '<span class="stat-pill">' + iconSvg('calendar', 17) + ' ' + (stats.days || 0) + ' days</span>';
+  html += '<span class="stat-pill">' + iconSvg('pin', 17) + ' ' + (stats.cities || 0) + ' cities</span>';
+  html += '<span class="stat-pill">' + iconSvg('star', 17) + ' ' + (stats.experiences || 0) + ' experiences</span>';
+  html += '<span class="stat-pill">' + iconSvg('bed', 17) + ' ' + (stats.hotels || 0) + ' hotels</span>';
+  html += '<span class="stat-pill">' + iconSvg('car', 17) + ' ' + (stats.transfers || 0) + ' transports</span>';
+  html += '</div></div></div>';
+
+  /* enrichment status bar — hidden initially, shown by generateTrip() */
+  html += '<div id="enrichStatusBar" class="enrich-status" style="display:none">' +
+    '<span class="spinner"></span>' +
+    '<span>Loading live hotel prices and flights&hellip;</span>' +
+  '</div>';
+
+  /* timeline */
+  html += '<div class="timeline">';
+
+  legs.forEach(function(leg, li) {
+    var isFirst = (li === 0);
+    var dayStart = 0;
+    for (var j = 0; j < li; j++) dayStart += (legs[j].days || []).length;
+    var dayEnd = dayStart + (leg.days || []).length;
+
+    /* city node */
+    html += nodeHtml('pin', 'Days ' + (dayStart + 1) + '-' + (dayEnd),
+      fmtDateRange(leg.startDate, leg.endDate), null,
+      renderCityHeader(leg), false);
+
+    /* arrival: flight or drive */
+    if (isFirst) {
+      html += nodeHtml('plane', 'Arrival', fmtDate(leg.startDate), null,
+        renderFlightCard(plan.outboundFlight, plan, true), false,
+        'data-node-type="flight-outbound"');
+      html += nodeHtml('car', 'Transfer', fmtDate(leg.startDate), null,
+        renderTransferCard(leg.startDate), false);
+    } else {
+      var prevLeg = legs[li - 1];
+      html += nodeHtml('car', 'Arrival', fmtDate(leg.startDate), null,
+        renderDriveBar(prevLeg, leg), false);
+    }
+
+    /* hotel */
+    var nights = (leg.days || []).length;
+    html += nodeHtml('bed', 'Stay',
+      fmtDateRange(leg.startDate, leg.endDate), nights + ' night' + (nights > 1 ? 's' : ''),
+      renderHotelCard(leg.hotel, leg.city), false,
+      'data-node-type="hotel" data-leg-index="' + li + '"');
+
+    /* day rows */
+    html += nodeHtml('calendar', 'Itinerary',
+      fmtDateRange(leg.startDate, leg.endDate), null,
+      renderDayRows(leg.days), false);
+  });
+
+  /* departure flight */
+  var lastLeg = legs[legs.length - 1];
+  html += nodeHtml('plane', 'Departure', lastLeg ? fmtDate(lastLeg.endDate) : '', null,
+    renderFlightCard(plan.inboundFlight, plan, false), true,
+    'data-node-type="flight-inbound"');
+
+  html += '</div>'; /* /timeline */
+
+  /* booking note */
+  if (plan.bookingNote) {
+    html += '<div class="booking-note">' +
+      iconSvg('spark', 15) + '<span>' + esc(plan.bookingNote) + '</span></div>';
+  }
+
+  panel.innerHTML = html;
+
+  /* show topbar center pill */
+  showTopbarCenter(plan);
+}
+
+/* timeline node helper */
+function nodeHtml(icon, label, date, sub, content, isLast, dataAttrs) {
+  return '<div class="tl-node' + (isLast ? ' last' : '') + '">' +
+    '<div class="tl-label">' +
+      '<div class="primary">' + esc(label) + '</div>' +
+      (date ? '<div class="secondary">' + esc(date) + '</div>' : '') +
+      (sub ? '<div class="secondary">' + esc(sub) + '</div>' : '') +
+    '</div>' +
+    '<div class="tl-center">' +
+      '<div class="tl-line"></div>' +
+      '<div class="tl-dot">' + iconSvg(icon, 20) + '</div>' +
+    '</div>' +
+    '<div class="tl-content"' + (dataAttrs ? ' ' + dataAttrs : '') + '>' + content + '</div>' +
+  '</div>';
+}
+
+/* city header */
+function renderCityHeader(leg) {
+  var html = '<div class="city-header">';
+  html += '<div class="city-name display">' + esc(leg.city) + (leg.area ? ' &middot; ' + esc(leg.area) : '') + '</div>';
+  if (leg.description) {
+    html += '<div class="city-blurb">' + esc(leg.description) + '</div>';
+  }
+  /* gallery */
+  html += '<div class="city-gallery">';
+  if (leg.heroImages && leg.heroImages.length && leg.heroImages[0]) {
+    html += '<img class="cg-main" src="' + esc(leg.heroImages[0]) + '" alt="' + esc(leg.city) + '" style="flex:2 1 0;height:230px;border-radius:14px;object-fit:cover">';
+    if (leg.heroImages[1]) {
+      html += '<img class="cg-side" src="' + esc(leg.heroImages[1]) + '" alt="' + esc(leg.city) + '" style="flex:1 1 0;height:230px;border-radius:14px;object-fit:cover">';
+    } else {
+      html += '<div class="ph gold cg-side" style="border-radius:14px"><span class="ph-label">' + esc(leg.city.toLowerCase() + ' · detail') + '</span></div>';
+    }
+  } else {
+    html += '<div class="ph green cg-main" style="border-radius:14px"><span class="ph-label">' + esc(leg.city.toLowerCase() + ' · view') + '</span></div>';
+    html += '<div class="ph gold cg-side" style="border-radius:14px"><span class="ph-label">' + esc(leg.city.toLowerCase() + ' · detail') + '</span></div>';
+  }
+  html += '<button class="icon-btn cg-next" type="button">' + iconSvg('chevR', 18) + '</button>';
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+/* flight card */
+function renderFlightCard(f, plan, isOutbound) {
+  if (!f) return '';
+  var isLoading = !f.bookingUrl;
+  var from = esc(f.from);
+  var to = esc(f.to);
+  var html = '<div class="card flight-card">';
+  html += '<div class="fc-top">';
+  html += '<span class="fc-airline">' + esc(f.airline) + '</span>';
+  html += '<span class="fc-class">' + esc(f.cabin) + '</span>';
+  html += '</div>';
+  html += '<div class="fc-route">';
+  html += '<div><div class="display fc-iata">' + from + '</div><div class="fc-time">' + esc(f.departTime) + '</div></div>';
+  html += '<div class="fc-path">';
+  html += '<div class="fc-dur">' + esc(f.durationLabel) + '</div>';
+  html += '<div class="fc-line"><span class="fc-plane">' + iconSvg('plane', 16) + '</span></div>';
+  html += '<div class="fc-stops">' + stopsLabel(f.stops) + '</div>';
+  html += '</div>';
+  html += '<div style="text-align:right"><div class="display fc-iata">' + to + '</div><div class="fc-time">' + esc(f.arriveTime) + '</div></div>';
+  html += '</div>';
+
+  html += '<div class="fc-bottom">';
+  if (isLoading) {
+    html += '<div style="display:flex;flex-direction:column;gap:5px">';
+    html += '<div class="ph-shimmer" style="width:80px;height:20px;border-radius:4px"></div>';
+    html += '<div class="ph-shimmer" style="width:120px;height:12px;border-radius:4px"></div>';
+    html += '</div>';
+  } else {
+    html += '<div><span class="display fc-price">' + esc(f.priceTotal) + '</span>' +
+      '<span class="route-label">' + esc('Flights ' + f.from + '→' + f.to) + '</span></div>';
+  }
+  html += changeDeleteHtml();
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+/* drive bar between cities */
+function renderDriveBar(fromLeg, toLeg) {
+  var html = '<div class="card drive-bar">';
+  html += '<div class="db-cities"><span>' + esc(fromLeg.city) + '</span><span>' + esc(toLeg.city) + '</span></div>';
+  html += '<div class="db-track"><span class="db-car">' + iconSvg('car', 20) + '</span></div>';
+  html += '<div class="db-dates"><span>' + esc(fmtDate(toLeg.startDate)) + '</span><span>' + esc(fmtDate(toLeg.startDate)) + '</span></div>';
+  html += '<div class="db-bottom">';
+  html += '<div class="db-meta">Private car</div>';
+  html += '<button class="btn-outline btn-change" type="button">' + iconSvg('swap', 15) + ' Change</button>';
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+/* transfer card */
+function renderTransferCard(date) {
+  return '<div class="card transfer-card">' +
+    '<div class="ph terra" style="width:84px;height:64px;flex:0 0 auto;border-radius:12px"><span class="ph-label">transfer</span></div>' +
+    '<div style="flex:1">' +
+      '<div style="font-weight:600;font-size:15.5px">Airport transfer &middot; hotel pickup</div>' +
+      '<div class="display tc-price">10 &euro; <span class="tc-per">/ group</span></div>' +
+    '</div>' +
+    '<button class="icon-btn btn-trash" type="button">' + iconSvg('trash', 16) + '</button>' +
+  '</div>';
+}
+
+/* hotel card */
+function renderHotelCard(h, cityName) {
+  if (!h) return '';
+  var score = h.score || 0;
+  var isLoading = !h.bookingUrl;
+  var html = '<div class="card hotel-card">';
+  html += '<div class="hc-row">';
+  /* image */
+  if (h.imageUrl) {
+    html += '<img class="hc-img" src="' + esc(h.imageUrl) + '" alt="' + esc(h.name) + '" style="width:150px;height:150px;border-radius:14px;object-fit:cover;flex:0 0 auto">';
+  } else if (isLoading) {
+    html += '<div class="ph-shimmer hc-img" style="width:150px;height:150px;border-radius:14px;flex:0 0 auto"></div>';
+  } else {
+    html += '<div class="ph green hc-img" style="width:150px;height:150px;border-radius:14px;flex:0 0 auto"><span class="ph-label">' + esc((cityName || '').toLowerCase() + ' villa') + '</span></div>';
+  }
+  html += '<div class="hc-body">';
+  html += '<div class="hc-stars">' + starsHtml(Math.min(5, h.stars || 0)) + '</div>';
+  html += '<div class="display hc-name">' + esc(h.name) + '</div>';
+  html += '<div class="hc-type">' + esc(h.area || '') + '</div>';
+
+  /* badges */
+  var badges = h.badges || [];
+  if (badges.length) {
+    html += '<div class="hc-badges">';
+    badges.forEach(function(b) {
+      html += '<span>' + iconSvg('utensils', 14) + ' ' + esc(b) + '</span>';
+    });
+    html += '</div>';
+  }
+
+  /* score + price */
+  html += '<div class="hc-bottom">';
+  if (score && !isLoading) {
+    html += '<div class="hc-score">' +
+      '<span class="hc-score-badge">' + (score.toFixed ? score.toFixed(1) : score) + '</span>' +
+      '<span><span class="hc-score-label">Wonderful</span></span>' +
+    '</div>';
+  }
+  if (isLoading) {
+    html += '<div class="hc-pricing" style="gap:6px">';
+    html += '<div class="ph-shimmer" style="width:110px;height:14px;border-radius:4px"></div>';
+    html += '<div class="ph-shimmer" style="width:70px;height:20px;border-radius:4px"></div>';
+    html += '<div class="ph-shimmer" style="width:90px;height:12px;border-radius:4px"></div>';
+    html += '</div>';
+  } else {
+    html += '<div class="hc-pricing">';
+    html += '<div class="from">from</div>';
+    html += '<div class="display amount">' + esc(h.pricePerNightFrom) + ' ' + esc(h.currency) + '</div>';
+    html += '<div class="tax">per night &middot; ' + esc(h.nights) + ' nights</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+
+  html += '<div class="hc-actions">' + changeDeleteHtml() + '</div>';
+  html += '</div></div>'; /* /hc-body, /hc-row */
+
+  /* AI note */
+  if (h.rationale) {
+    html += '<div class="ai-note">' + iconSvg('spark', 15) + '<span>' + esc(h.rationale) + '</span></div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+/* day rows */
+function renderDayRows(days) {
+  if (!days || !days.length) return '';
+  var html = '<div style="display:flex;flex-direction:column;gap:12px">';
+  var tones = ['green','gold','terra',''];
+  days.forEach(function(day) {
+    var expCount = Array.isArray(day.experiences) ? day.experiences.length : 0;
+    var tone = tones[(day.day || 0) % 4];
+    var dayImgUrl = day.experiences && day.experiences[0] && day.experiences[0].imageUrl;
+    html += '<div class="card day-row">';
+    if (dayImgUrl) {
+      html += '<img class="dr-img" src="' + esc(dayImgUrl) + '" alt="" style="border-radius:12px;object-fit:cover">';
+    } else {
+      html += '<div class="ph ' + tone + ' dr-img" style="border-radius:12px"><span class="ph-label"></span></div>';
+    }
+    html += '<div class="dr-body">';
+    html += '<div class="dr-meta">';
+    html += '<span class="dr-badge">Day ' + esc(day.day) + '</span>';
+    html += '<span>&middot; ' + expCount + ' experience' + (expCount > 1 ? 's' : '') + '</span>';
+    html += '<span>&middot; ' + esc(fmtDate(day.date)) + '</span>';
+    html += weatherHtml(day.weather);
+    html += '</div>';
+    html += '<div class="dr-title">' + esc(day.title) + '</div>';
+    html += '</div>';
+    html += '<div class="dr-chev">' + iconSvg('chevR', 18) + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+/* ============================================================
+   DEPARTURE LOCATION (Fastly geolocation)
+   ============================================================ */
+async function initDeparture() {
+  try {
+    var r = await fetch('/api/geo');
+    if (!r.ok) return;
+    var geo = await r.json();
+    if (!geo.city) return;
+    detectedDeparture = geo.city + ', ' + geo.country_name;
+  } catch (_) {}
+}
+initDeparture();
+
+/* ============================================================
+   SHARED TRIP BOOT — load from KV Store if URL is /trip/{uuid}
+   ============================================================ */
+(function() {
+  var m = window.location.pathname.match(/^\/trip\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i);
+  if (!m) return;
+  var tripId = m[1];
+  setState('plan');
+  document.getElementById('planPanel').innerHTML =
+    '<div style="padding:40px;text-align:center;color:var(--muted)">Loading your saved trip&hellip;</div>';
+  fetch('/api/trips/' + tripId)
+    .then(function(res) { return res.ok ? res.json() : Promise.reject(res.status); })
+    .then(function(plan) {
+      currentTripId = tripId;
+      renderTripPlanV2(plan);
+      showVersionCard(plan.title);
+      runEnrichment(plan);
+    })
+    .catch(function(err) {
+      setState('landing');
+      history.replaceState(null, '', '/');
+      console.warn('Failed to load shared trip:', err);
+    });
+})();
+
+/* ============================================================
+   SEND MESSAGE (Phase A — chat turn)
+   ============================================================ */
+async function sendMessage(text) {
+  if (!text.trim()) return;
+  if (autostartTimer) { clearTimeout(autostartTimer); autostartTimer = null; }
+
+  if (appState === 'landing') {
+    setState('planning');
+    renderChecklist({
+      destination: { status: 'pending', value: null },
+      departureFrom: { status: 'pending', value: detectedDeparture || null },
+      travellers: { status: 'pending', value: null },
+      when: { status: 'pending', value: null },
+      interests: { status: 'pending', value: null },
+    });
+  }
+
+  appendUser(text);
+  updateSendButtons();
+  appendTyping();
+  showSuggestions(null);
+
+  conversationHistory.push({ role: 'user', content: text });
+
+  try {
+    var payload = { messages: conversationHistory };
+    if (detectedDeparture) payload.departureCity = detectedDeparture;
+
+    var r = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    removeTyping();
+    trackTokens(r);
+
+    if (r.ok) {
+      var data = await r.json();
+      if (data.reply) {
+        appendAI(data.reply);
+        conversationHistory.push({ role: 'assistant', content: data.reply });
+      }
+      if (data.checklist) {
+        renderChecklist(data.checklist);
+      }
+
+      var shouldAutostart = false;
+      if (data.autostart === true) shouldAutostart = true;
+      if (data.checklist) {
+        var allFilled = CL_KEYS.every(function(k) {
+          return data.checklist[k] && data.checklist[k].status === 'filled';
+        });
+        if (allFilled) shouldAutostart = true;
+      }
+      console.log('[autostart] autostart flag:', data.autostart, '| allFilled:', allFilled, '| shouldAutostart:', shouldAutostart, '| appState:', appState);
+      if (shouldAutostart && appState === 'planning') {
+        generateTrip();
+      }
+    } else {
+      appendAI('**Error.** Please try again.');
+      conversationHistory.pop();
+    }
+  } catch (err) {
+    removeTyping();
+    appendAI('**Connection error.** The planning service is currently unavailable.');
+    conversationHistory.pop();
+  } finally {
+    updateSendButtons();
+  }
+}
+
+/* ============================================================
+   ENRICHMENT PATCHING — hotel and flight cards
+   ============================================================ */
+function triggerRise(el) {
+  el.classList.remove('patch-rise');
+  requestAnimationFrame(function() { el.classList.add('patch-rise'); });
+}
+
+function patchHotelCard(legIndex, hotel, cityName, totalLegs) {
+  if (typeof legIndex !== 'number' || !Number.isInteger(legIndex) || legIndex < 0 || legIndex >= totalLegs) return;
+  var el = document.querySelector('.tl-content[data-node-type="hotel"][data-leg-index="' + legIndex + '"]');
+  if (!el) return;
+  el.innerHTML = renderHotelCard(hotel, cityName);
+  triggerRise(el);
+}
+
+function patchFlightCard(type, flight, plan) {
+  var selector = type === 'outbound'
+    ? '.tl-content[data-node-type="flight-outbound"]'
+    : '.tl-content[data-node-type="flight-inbound"]';
+  var el = document.querySelector(selector);
+  if (!el) return;
+  el.innerHTML = renderFlightCard(flight, plan, type === 'outbound');
+  triggerRise(el);
+}
+
+function showHotelUnavailable(legIndex, totalLegs) {
+  if (typeof legIndex !== 'number' || legIndex < 0 || legIndex >= totalLegs) return;
+  var el = document.querySelector('.tl-content[data-node-type="hotel"][data-leg-index="' + legIndex + '"]');
+  if (!el) return;
+  el.innerHTML = '<div class="card hotel-card" style="color:var(--muted);font-size:13.5px;padding:18px">' +
+    iconSvg('spark', 14) + ' Live hotel prices unavailable — try regenerating.</div>';
+}
+
+function showFlightUnavailable(type) {
+  var selector = type === 'outbound'
+    ? '.tl-content[data-node-type="flight-outbound"]'
+    : '.tl-content[data-node-type="flight-inbound"]';
+  var el = document.querySelector(selector);
+  if (!el) return;
+  el.innerHTML = '<div class="card flight-card" style="color:var(--muted);font-size:13.5px;padding:18px">' +
+    iconSvg('plane', 14) + ' Live flight prices unavailable — try regenerating.</div>';
+}
+
+/* ============================================================
+   ENRICHMENT — hotel prices + flights (called from generateTrip and boot load)
+   ============================================================ */
+function runEnrichment(plan) {
+  var thisGen = ++enrichmentGeneration;
+  var enrichBar = document.getElementById('enrichStatusBar');
+  if (enrichBar) enrichBar.style.display = 'flex';
+  var capturedBar = enrichBar;
+
+  var totalLegs = (plan.legs || []).length;
+  var tripStyle = (currentChecklist && currentChecklist.interests && currentChecklist.interests.status === 'filled'
+    ? currentChecklist.interests.value : '') || '';
+
+  var legHotelCalls = (plan.legs || []).map(function(leg, i) {
+    var hotelPayload = {
+      legIndex: i,
+      city: leg.city,
+      area: leg.area || null,
+      startDate: leg.startDate,
+      endDate: leg.endDate,
+      nights: (leg.days || []).length,
+      style: tripStyle,
+      travellers: plan.travellers || ''
+    };
+    return fetch(`/api/hotel/${plan.tripId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(hotelPayload)
+    }).then(function(res) {
+      trackTokens(res);
+      return res.ok ? res.json() : null;
+    }).then(function(data) {
+      if (thisGen !== enrichmentGeneration) return;
+      if (!data || typeof data.legIndex !== 'number') { showHotelUnavailable(i, totalLegs); return; }
+      if (data.hotel) {
+        var legRef = plan.legs[data.legIndex];
+        patchHotelCard(data.legIndex, data.hotel, legRef ? legRef.city : '', totalLegs);
+        if (legRef) legRef.hotel = data.hotel;
+      } else {
+        showHotelUnavailable(data.legIndex, totalLegs);
+      }
+    }).catch(function(err) {
+      console.warn('Hotel enrichment failed for leg ' + i + ':', err);
+      if (thisGen !== enrichmentGeneration) return;
+      showHotelUnavailable(i, totalLegs);
+    });
+  });
+
+  /* departureCity: geo detection > checklist > stored IATA code from flight stub */
+  var departureCity = detectedDeparture ||
+    (currentChecklist && currentChecklist.departureFrom && currentChecklist.departureFrom.status === 'filled'
+      ? currentChecklist.departureFrom.value : '') ||
+    (plan.outboundFlight && plan.outboundFlight.from) || '';
+
+  /* cabinPreference: checklist "luxury" interest > stored cabin from flight stub */
+  var cabinPreference = (currentChecklist && currentChecklist.interests && currentChecklist.interests.value &&
+    currentChecklist.interests.value.toLowerCase().indexOf('luxury') !== -1)
+    ? 'Business'
+    : (plan.outboundFlight && plan.outboundFlight.cabin) || 'Economy';
+
+  var flightsPayload = {
+    departureCity: departureCity,
+    firstLegCity: plan.legs && plan.legs[0] ? plan.legs[0].city : '',
+    lastLegCity: plan.legs && plan.legs.length ? plan.legs[plan.legs.length - 1].city : '',
+    startDate: plan.startDate || '',
+    endDate: plan.endDate || '',
+    travellers: plan.travellers || '',
+    cabinPreference: cabinPreference
+  };
+
+  var flightsCall = fetch(`/api/flights/${plan.tripId}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(flightsPayload)
+  }).then(function(res) {
+    trackTokens(res);
+    return res.ok ? res.json() : null;
+  }).then(function(data) {
+    if (thisGen !== enrichmentGeneration) return;
+    if (!data) { showFlightUnavailable('outbound'); showFlightUnavailable('inbound'); return; }
+    if (data.outboundFlight) { patchFlightCard('outbound', data.outboundFlight, plan); plan.outboundFlight = data.outboundFlight; }
+    else { showFlightUnavailable('outbound'); }
+    if (data.inboundFlight) { patchFlightCard('inbound', data.inboundFlight, plan); plan.inboundFlight = data.inboundFlight; }
+    else { showFlightUnavailable('inbound'); }
+  }).catch(function(err) {
+    console.warn('Flight enrichment failed:', err);
+    if (thisGen !== enrichmentGeneration) return;
+    showFlightUnavailable('outbound');
+    showFlightUnavailable('inbound');
+  });
+
+  Promise.allSettled(legHotelCalls.concat([flightsCall])).then(function() {
+    if (capturedBar) capturedBar.style.display = 'none';
+  });
+}
+
+/* ============================================================
+   GENERATE TRIP (Phase B + C)
+   ============================================================ */
+async function generateTrip() {
+  if (appState !== 'planning') return;
+
+  var tripTitle = currentChecklist && currentChecklist.destination && currentChecklist.destination.value
+    ? currentChecklist.destination.value + ' trip'
+    : 'Your trip';
+
+  showGenerating(tripTitle);
+
+  /* smooth progress ticker */
+  var p = 4;
+  genTickerInterval = setInterval(function() {
+    p = Math.min(95, p + Math.random() * 1.5 + 0.3);
+    showGenProgress(Math.round(p));
+  }, 250);
+
+  try {
+    var payload = {
+      messages: conversationHistory,
+      checklist: currentChecklist || {},
+    };
+    if (detectedDeparture) payload.departureCity = detectedDeparture;
+
+    var r = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    clearInterval(genTickerInterval);
+    finishGenerating();
+    trackTokens(r);
+
+    if (r.ok) {
+      var plan = await r.json();
+      await new Promise(function(res) { setTimeout(res, 250); });
+
+      setState('plan');
+      renderTripPlanV2(plan);
+      showGenProgress(null);
+      showVersionCard(plan.title);
+      if (plan.tripId) {
+        currentTripId = plan.tripId;
+        history.pushState({ tripId: plan.tripId }, '', '/trip/' + plan.tripId);
+      }
+
+      /* build summary message */
+      var cities = (plan.legs || []).map(function(l) { return l.city; }).join(' → ');
+      var summary = 'Here\'s your **' + (plan.destinationName || 'dream') + '** plan!\n\n' +
+        'I\'ve routed you through ' + cities + ' — ' + (plan.stats ? plan.stats.days : '?') + ' days.\n\n' +
+        'Want me to fine-tune the hotels, swap an activity, or jump straight to booking?';
+      appendAI(summary);
+      conversationHistory.push({ role: 'assistant', content: summary });
+
+      showSuggestions(['Continue to booking', 'Show flights', 'Hotel details']);
+
+      runEnrichment(plan);
+    } else {
+      var err = await r.json().catch(function() { return {}; });
+      setState('planning');
+      showGenProgress(null);
+      appendAI('**Generation error:** ' + (err.error || 'Unknown error. Please try again.'));
+    }
+  } catch (err) {
+    clearInterval(genTickerInterval);
+    finishGenerating();
+    setState('planning');
+    showGenProgress(null);
+    appendAI('**Connection error.** The generation service is currently unavailable.');
+  }
+}
+
+/* ============================================================
+   SEND BUTTON STATE
+   ============================================================ */
+function updateSendButtons() {
+  var lp = document.getElementById('landingPrompt');
+  var cp = document.getElementById('chatPrompt');
+  var ls = document.getElementById('landingSendBtn');
+  var cs = document.getElementById('chatSendBtn');
+  ls.className = 'send' + (lp.value.trim() ? '' : ' disabled');
+  cs.className = 'send' + (cp.value.trim() ? '' : ' disabled');
+}
+
+/* ============================================================
+   TEXTAREA AUTO-RESIZE
+   ============================================================ */
+function autoResize(el, maxH) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(maxH || 180, el.scrollHeight) + 'px';
+}
+
+/* ============================================================
+   INPUT HANDLERS
+   ============================================================ */
+var landingPrompt = document.getElementById('landingPrompt');
+var chatPrompt = document.getElementById('chatPrompt');
+
+/* Landing composer */
+landingPrompt.addEventListener('input', function() {
+  autoResize(landingPrompt, 180);
+  updateSendButtons();
+});
+landingPrompt.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    var text = landingPrompt.value.trim();
+    if (text) { landingPrompt.value = ''; sendMessage(text); }
+  }
+});
+document.getElementById('landingSendBtn').addEventListener('click', function() {
+  var text = landingPrompt.value.trim();
+  if (text) { landingPrompt.value = ''; sendMessage(text); }
+});
+
+/* Chat composer */
+chatPrompt.addEventListener('input', function() {
+  autoResize(chatPrompt, 140);
+  updateSendButtons();
+});
+chatPrompt.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    var text = chatPrompt.value.trim();
+    if (text) { chatPrompt.value = ''; chatPrompt.style.height = 'auto'; sendMessage(text); }
+  }
+});
+document.getElementById('chatSendBtn').addEventListener('click', function() {
+  var text = chatPrompt.value.trim();
+  if (text) { chatPrompt.value = ''; chatPrompt.style.height = 'auto'; sendMessage(text); }
+});
+
+/* Generate button */
+document.getElementById('generateBtn').addEventListener('click', generateTrip);
+
+/* Share button */
+document.getElementById('shareBtn').addEventListener('click', function() {
+  var url = window.location.href;
+  var title = (currentTrip && currentTrip.title) ? currentTrip.title : 'My AI Trip Plan';
+  if (navigator.share) {
+    navigator.share({ title: title, url: url }).catch(function() {
+      // user cancelled (AbortError) — no feedback needed
+    });
+  } else {
+    navigator.clipboard.writeText(url).then(function() {
+      var btn = document.getElementById('shareBtn');
+      var originalHTML = btn.innerHTML;
+      btn.innerHTML = iconSvg('check', 17) + ' Copied!';
+      setTimeout(function() { btn.innerHTML = originalHTML; }, 2000);
+    }).catch(function() {
+      window.prompt('Copy this link to share your trip:', url);
+    });
+  }
+});
+
+/* New trip button */
+document.getElementById('newTripBtn').addEventListener('click', function() {
+  if (autostartTimer) { clearTimeout(autostartTimer); autostartTimer = null; }
+  conversationHistory.length = 0;
+  currentChecklist = null;
+  currentTrip = null;
+  currentTripId = null;
+  history.replaceState(null, '', '/');
+  messagesEl.innerHTML = '';
+  document.getElementById('planPanel').innerHTML = '';
+  showSuggestions(null);
+  showVersionCard(null);
+  showGenProgress(null);
+  showTopbarCenter(null);
+  setState('landing');
+});
+
+/* Focus */
+landingPrompt.focus();
+</script>
+<div id="tokenCounter" style="position:fixed;bottom:12px;right:16px;font-size:11px;font-family:'Hanken Grotesk',sans-serif;color:var(--muted);background:var(--cream);border:1px solid var(--line);border-radius:6px;padding:3px 8px;opacity:.75;pointer-events:none;z-index:9999"></div>
+</body>
+</html>
